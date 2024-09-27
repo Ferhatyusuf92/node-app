@@ -42,4 +42,7 @@ const resetTable = async () => {
   }
 };
 
-module.exports = { initializeConnection };
+module.exports = { initializeConnection,
+  getConnection: () => connection,  
+  
+ };
