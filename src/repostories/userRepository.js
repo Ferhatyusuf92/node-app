@@ -1,9 +1,7 @@
-const { getConnection } = require("../config/database.js");
+const User = require("../models/user.js");
 
 const getUsers = async () => {
-  const connection = getConnection();
-  const sql = "SELECT * FROM USERS";
-  const [users] = await connection.query(sql);
+  const users = await User.findAll();
   return users;
 };
 
@@ -18,14 +16,16 @@ const getUserById = async (id) => {
 };
 
 const createUser = async (body) => {
-  const connection = getConnection();
-  const sql = "INSERT INTO users (username, email , password) VALUES (?, ?,?)";
-  const [result] = await connection.query(sql, [
-    body.username,
-    body.email,
-    body.password,
-  ]);
-  return { id: result.insertId, ...body };
+  // const connection = getConnection();
+  // const sql = "INSERT INTO users (username, email , password) VALUES (?, ?,?)";
+  // const [result] = await connection.query(sql, [
+  //   body.username,
+  //   body.email,
+  //   body.password,
+  // ]);
+  // return { id: result.insertId, ...body };
+  const user = await User.create(body);
+  return user;
 };
 
 const updateUser = async (id, body) => {

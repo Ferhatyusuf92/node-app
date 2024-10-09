@@ -11,5 +11,4 @@ const sequelize = new Sequelize(
     dialect: process.env.DB_CLIENT,
   }
 );
-
 module.exports = sequelize;
