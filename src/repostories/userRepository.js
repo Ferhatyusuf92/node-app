@@ -6,54 +6,35 @@ const getUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  const connection = getConnection();
-  const sql = "SELECT * FROM users WHERE id = ?";
-  const [result] = await connection.query(sql, [id]);
-  if (result.lenght === 0) {
-    return "";
-  }
-  return result[0];
+  const user = await User.findByPk(id);
+  return user;
 };
 
 const createUser = async (body) => {
-  // const connection = getConnection();
-  // const sql = "INSERT INTO users (username, email , password) VALUES (?, ?,?)";
-  // const [result] = await connection.query(sql, [
-  //   body.username,
-  //   body.email,
-  //   body.password,
-  // ]);
-  // return { id: result.insertId, ...body };
   const user = await User.create(body);
   return user;
 };
 
 const updateUser = async (id, body) => {
-  const connection = getConnection();
-  const sql =
-    "UPDATE users SET username = ?, email = ? , password = ? WHERE id = ?";
-  const [result] = await connection.query(sql, [
-    body.username,
-    body.email,
-    body.password,
-    id,
-  ]);
-  if (result.affectedRows === 0) {
-    return "";
-  }
-  return { id: id, ...body };
+  await User.update(body, {
+    where: {
+      id: id,
+    },
+  });
+  const user = await User.findByPk(id);
+  return user;
 };
 
 const deleteUser = async (id) => {
-  const connection = getConnection();
-  const sql = "DELETE FROM users WHERE id = ?";
-  const [result] = await connection.query(sql, [id]);
-  if (result.affectedRows === 0) {
-    return "";
-  }
-  return "User deleted";
+  const result = await User.destroy({
+    where: {
+      id: id,
+    },
+  });
+  if (result) {
+    return "user deleted";
+  } else return "";
 };
-
 module.exports = {
   getUsers,
   getUserById,

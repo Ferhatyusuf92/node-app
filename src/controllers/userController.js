@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const result = await userRepository.getUserById(Number(req.params.id));
+    const result = await userRepository.getUserById(req.params.id);
     if (result) {
       res.status(200).send(result);
     } else {
@@ -35,10 +35,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const result = await userRepository.updateUser(
-      Number(req.params.id),
-      req.body
-    );
+    const result = await userRepository.updateUser(req.params.id, req.body);
     if (result) {
       res.status(200).send(result);
     } else {
@@ -51,7 +48,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const result = await userRepository.deleteUser(Number(req.params.id));
+    const result = await userRepository.deleteUser(req.params.id);
 
     if (result) {
       res.status(200).send(result);
